@@ -1,2 +1,3 @@
-# COVID-19
-Analysis of COVID-19 data
+# Russo-Ukrainian Crisis
+
+Analysis of Tweets stemming from the 2022 Russo-Ukrainian Crisis
