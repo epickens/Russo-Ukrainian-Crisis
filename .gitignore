@@ -142,3 +142,12 @@ data/
 
 #models
 models/
+
+#graphs
+graphs/
+adjaceny/
+
+#images
+images/
+
+
