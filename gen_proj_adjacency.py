@@ -1,11 +1,11 @@
 import networkx as nx 
 import numpy as np
 
-"""
+
 print("Loading bipartite adjacency matrix...")
-B = np.load("adjacency/apr24_adj_rr_20.npy")
+B = np.load("adjacency/B_apr24_rr_20.npy")
 #reduce size if desired
-B = B[0:500, :]
+B = B[1:501, :]
 #B[:, 0] = 0
 #B = B[950:, :]
 #print(B[:, 0])
@@ -31,13 +31,14 @@ for i in range(500):
 			
 
 #print(A[0])		
-"""
-A = np.load("adjacency/A_test1.npy")
-# print(A.shape)
-G = nx.from_numpy_array(A, create_using=nx.DiGraph) #, create_using=nx.MultiGraph
+G = nx.from_numpy_array(A)
+
+print("Saving projected adjacency matrix...")
+with open('adjacency/A_apr24_rr_20.npy', 'wb') as f:
+    np.save(f, A)
 
 print("Saving output as edgelist...")
-with open("graphs/apr24_test1.edgelist.csv", "wb") as fh:
+with open("graphs/apr24_rr_end_20.edgelist.csv", "wb") as fh:
 	#nx.write_edgelist(G, fh)
 	nx.write_edgelist(G, delimiter=',', path=fh)
 	
