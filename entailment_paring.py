@@ -8,7 +8,7 @@ from transformers import AutoModel, AutoTokenizer
 
 
 print("Loading adjacency matrix...")
-topic_A = np.load("adjacency/A_apr24_rr_20.npy")
+topic_A = np.load("adjacency/A_apr24_new_20.npy")
 
 print("Loading text data...")
 df = pd.read_csv('data/apr24_rr_20.csv')
@@ -58,7 +58,7 @@ def entailment_based_adjacency():
 
 	print("Generating embeddings...")
 	emb = []
-	for i in range(500):
+	for i in tqdm(range(500)):
 		emb.append(para_model.encode(docs[i]))
 
 	print("Building adjacency matrix...")
@@ -72,7 +72,7 @@ def entailment_based_adjacency():
 				continue
 
 			sim = np.dot(emb[i], emb[j])/(np.linalg.norm(emb[i]) * np.linalg.norm(emb[j]))
-			if sim >= 0.5:
+			if sim >= 0.45:
 				A[i,j] = 1
 				A[j,i] = 1
 			"""
@@ -93,11 +93,13 @@ def entailment_based_adjacency():
 	return A
 
 
-A = bertweet_based_adjacency()
-
-adj = A * topic_A#np.where(A == topic_A, 1, 0)
+# A = bertweet_based_adjacency()
+A = entailment_based_adjacency()
+# adj = np.asarray([list(map(int, row)) for row in np.equal(A, topic_A)])
+# print(adj)
+adj = np.where(A + topic_A == 2, 1, 0)
 print("Saving adjacency matrix...")
-with open('adjacency/A_test1.npy', 'wb') as f:
+with open('adjacency/A_test2.npy', 'wb') as f:
 	np.save(f, adj)
 
 print("Done.")

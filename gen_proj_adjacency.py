@@ -3,7 +3,7 @@ import numpy as np
 
 
 print("Loading bipartite adjacency matrix...")
-B = np.load("adjacency/B_apr24_rr_20.npy")
+B = np.load("adjacency/B_apr24_new_20.npy")
 #reduce size if desired
 B = B[1:501, :]
 #B[:, 0] = 0
@@ -34,11 +34,11 @@ for i in range(500):
 G = nx.from_numpy_array(A)
 
 print("Saving projected adjacency matrix...")
-with open('adjacency/A_apr24_rr_20.npy', 'wb') as f:
+with open('adjacency/A_apr24_new_20.npy', 'wb') as f:
     np.save(f, A)
 
 print("Saving output as edgelist...")
-with open("graphs/apr24_rr_end_20.edgelist.csv", "wb") as fh:
+with open("graphs/A_apr24_new_20.edgelist.csv", "wb") as fh:
 	#nx.write_edgelist(G, fh)
 	nx.write_edgelist(G, delimiter=',', path=fh)
 	
