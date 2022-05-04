@@ -153,4 +153,7 @@ images/
 #embeddings
 embeddings/
 
+#signals
+signals/
+topics/
 
