@@ -64,38 +64,39 @@ def load_model(path, emb_path, embeddings=True):
         return BERTopic.load(path)
 
 
-docs = load_data('data/apr24_rr_20.csv')
-model, embeddings = get_model(docs, False)
-# print(embeddings)
-print("Training model...")
-topic_model = model.fit(docs, embeddings)
+def build_B():
+    docs = load_data('data/apr24_rr_20.csv')
+    model, embeddings = get_model(docs, False)
+    # print(embeddings)
+    print("Training model...")
+    topic_model = model.fit(docs, embeddings)
 
-print("Saving model...")
-topic_model.save("models/apr24_new_20")
-num_topics = len(topic_model.get_topics())
+    print("Saving model...")
+    topic_model.save("models/apr24_new_20")
+    num_topics = len(topic_model.get_topics())
 
-print("Making predictions...")
-topics, probabilities = topic_model.transform(docs)
-with open('signals/probabilities_1.npy', 'wb') as f:
-    np.save(f, probabilities)
-f.close()
-with open('topics/topics_1.npy', 'wb') as f:
-    np.save(f, topics)
-f.close()
+    print("Making predictions...")
+    topics, probabilities = topic_model.transform(docs)
+    with open('signals/probabilities_1.npy', 'wb') as f:
+        np.save(f, probabilities)
+    f.close()
+    with open('topics/topics_1.npy', 'wb') as f:
+        np.save(f, topics)
+    f.close()
 
-print("Building adjacency matrix...")
-n = len(probabilities) #df.shape[0]
-m = len(probabilities[0])
-cut = num_topics - 3
+    print("Building adjacency matrix...")
+    n = len(probabilities) #df.shape[0]
+    m = len(probabilities[0])
+    cut = num_topics - 3
 
-A = np.zeros((n,m))
+    A = np.zeros((n,m))
 
-for i in range(n):
-    A[i][np.argsort(probabilities[i])[cut:]] = 1
+    for i in range(n):
+        A[i][np.argsort(probabilities[i])[cut:]] = 1
 
-print("Saving adjacency matrix...")
-with open('adjacency/B_apr24_new_20.npy', 'wb') as f:
-    np.save(f, A)
-f.close()
+    print("Saving adjacency matrix...")
+    with open('adjacency/B_apr24_new_20.npy', 'wb') as f:
+        np.save(f, A)
+    f.close()
 
-print("Done.")
+    print("Done.")
